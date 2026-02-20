@@ -87,9 +87,9 @@ DOCTOR – View only their assigned patients
 Swagger UI Authorization in the Clinic API is implemented using OAuth2 with JWT bearer authentication. The application exposes a token endpoint(/auth/login) that follows the OAuth2 Password Grant flow. When a user clicks the Authorize button in Swagger UI, they are prompted to enter their credentials (username and password). Swagger UI then sends these credentials to the token endpoint to request an access token. Upon successful authentication, the server issues a JWT access token containing the user’s identity and role information. Swagger UI securely stores this token in the browser session and automatically attaches it to subsequent API requests in the HTTP header.
 
 •	API flow
-1. registration of admin - /auth/register
-2. logging in of Admin  - /auth/login
-3. Swagger UI Authorization using admin credentials 
+1. registration of admin and doctors - /auth/register
+2. logging in of Admin or Doctor  - /auth/login
+3. Swagger UI Authorization using admin or doctor credentials 
 4. Once swagger UI is authorized to execute APIs, we can do CRUD operations in the Swagger UI
 5. Add doctors – POST /doctors
 6. View doctors – GET /doctors
@@ -136,16 +136,23 @@ VI. Alembic – Migrations and Auto Generating Revisions from SQLAlchemy Models
   1. Create a migration environment
      
 o	Install alembic and psycopg2 (PostgreSQL driver for Python)
+
 Specified in the requirements.txt file
+
 o	Migration environment is created using the “init” command
-alembic init myapp
+
+    alembic init myapp
+
 o	env.py is run anytime when the alembic migrations are invoked
+
 o	Tell the alembic how to connect to the database that is in the PostgreSQL in local system
+
 In the alembic/ini file, update sqlalchemy.url with the actual path to the postgresql db used for migrations
                 
     sqlalchemy.url = postgresql+psycopg2://postgres:<pwd>@localhost:5433/mydb
 
 o	Make sure alembic imports your models 
+
 In alembic/env.py you must import the model modules so they register with Base.metadata
 
     from app.db.base import Base
@@ -161,12 +168,16 @@ o	Stop creating tables in FastAPI startup. So, remove this from lifespan()
 o	Ensure your DB schema is truly empty from the pgAdmin app
 
  2. Create a migration
-o	Run this command for the first migration 
-alembic revision –autogenerate -m “initial tables”
+o	Run this command for the first migration
+
+        alembic revision –autogenerate -m “initial tables”
+
 o	Open the generated file (starting with some revision number inside the alembic/versions folder.
+
 We can see the updations to create tables in upgrade() and drop tables in downgrade() 
+
 o	We can make any modifications in these generated code
- 3. Apply migration
+ 4. Apply migration
     Now run :
 
         alembic upgrade head
@@ -198,7 +209,7 @@ In power shell:
         https://www.docker.com/products/docker-desktop/
   
   Download Docker Desktop for Windows (WSL2)
-  Use this Docker app for all operations directly instead of using a terminal window in VSCode.
+  Use this Docker app for managing containers visually + via terminal
 
  ii) Add a Dockerfile for the FastAPI app
      Create Dockerfile  at the project root
@@ -223,4 +234,5 @@ v)  Running everything from Docker desktop
        docker compose up –build
        
   we can run the FastAPI app in the docker now.
+
 
