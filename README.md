@@ -4,7 +4,7 @@ Objective:
 To build a complete backend system using FastAPI that includes authentication, authorization, business logic, and database persistence for managing Doctors and Patients. 
 The app name : Clinic API
 
-I. Tech stack: 
+Tech stack: 
 Python 3.9+
 FastAPI
 Pydantic
@@ -13,7 +13,7 @@ PostgreSQL
 JWT based Authentication,
 Uvicorn
 
-II. Install Dependencies
+I. Install Dependencies
 
 If you face bcrypt error:
 
@@ -21,8 +21,8 @@ If you face bcrypt error:
     pip install “passlib[bcrypt]==1.7.4” “bcrypt<4.0”
 
 Install Software for running this FastAPI application 
-Go to Python website: https://www.python.org/downloads/windows/
-and download Python and install it in your system by double-clicking it.
+
+Go to Python website: https://www.python.org/downloads/windows/  and download Python and install it in your system by double-clicking it.
 
 From the command prompt check the version of the Python installed using the command :
       
@@ -61,10 +61,15 @@ Start the “uvicorn” server:
    
         uvicorn app.main:app –reload
   	
-III. PostgreSQL Setup
-1. Install PostgreSQL on your machine
-    pgAdmin app shows the hostname, portnumber, username that will be used in the python code
-2. Create a database
+II. PostgreSQL Setup
+
+1. Install PostgreSQL on your machine (Windows here)
+
+       https://www.postgresql.org/download/windows/
+   
+   pgAdmin app shows the hostname, portnumber, username that will be used in the python code
+   
+3. Create a database
 
        CREATE DATABASE <db_name>;
    
@@ -72,21 +77,25 @@ III. PostgreSQL Setup
        
        DATABASE_URL=postgresql://postgres:PASSWORD@localhost:<PORT_NUMBER>/<db_name>
    
-IV Application 
+III Application 
 
-•	Authentication and authorization using JWT
-Role Based Access Control 
+•	Authentication and authorization using JWT  -  Role Based Access Control 
+
 There are different types of users:
+
 1. ADMIN
 2. DOCTOR
 3. Patient (not considered as user)
+   
 Each role has different permissions:
+
 ADMIN – create doctors, create patients, assign patients, list all doctors and patients
+
 DOCTOR – View only their assigned patients
 
 Swagger UI Authorization in the Clinic API is implemented using OAuth2 with JWT bearer authentication. The application exposes a token endpoint(/auth/login) that follows the OAuth2 Password Grant flow. When a user clicks the Authorize button in Swagger UI, they are prompted to enter their credentials (username and password). Swagger UI then sends these credentials to the token endpoint to request an access token. Upon successful authentication, the server issues a JWT access token containing the user’s identity and role information. Swagger UI securely stores this token in the browser session and automatically attaches it to subsequent API requests in the HTTP header.
 
-•	API flow
+IV) API flow
 1. registration of admin - /auth/register
 2. logging in of authorized User- /auth/login. Admin can login once registerd. After Doctor is created by the Admin, the Doctor can login
 3. Swagger UI Authorization using admin or doctor credentials 
@@ -102,12 +111,13 @@ Swagger UI Authorization in the Clinic API is implemented using OAuth2 with JWT 
 13. View the assigned doctors – patients data – POST /{doctor_id}/patients/{patient_id}
 14. rate limiter – GET /health – used to verify whether the application is running properly – here 30/minute limit is set 
 
-V. Tests using pytest
-Using pytest for Fast API app
+V. Tests using pytest for Fast API app
 
 1. Install pytest
 
-2. Create a PostgreSQL test database
+    included in the requirements.txt file
+
+3. Create a PostgreSQL test database
 
         CREATE DATABASE mydb_test
 
@@ -122,11 +132,11 @@ Using pytest for Fast API app
         JWT_SECRET=test-secret
 
 5. Run Tests
-     From project root:
+     While the app is running, open another terminal window and run the tests from project root:
 
         pytest -q
 
-6. Check test data in pgAdmin
+7. Check test data in pgAdmin
        - open mydb_tests
        - look at tables: users, doctors, patients
        - rows would have been created by tests
@@ -168,6 +178,7 @@ o	Stop creating tables in FastAPI startup. So, remove this from lifespan()
 o	Ensure your DB schema is truly empty from the pgAdmin app
 
  2. Create a migration
+    
 o	Run this command for the first migration
 
         alembic revision –autogenerate -m “initial tables”
@@ -177,7 +188,9 @@ o	Open the generated file (starting with some revision number inside the alembic
 We can see the updations to create tables in upgrade() and drop tables in downgrade() 
 
 o	We can make any modifications in these generated code
- 4. Apply migration
+ 
+ 3. Apply migration
+    
     Now run :
 
         alembic upgrade head
@@ -234,6 +247,7 @@ v)  Running everything from Docker desktop
        docker compose up –build
        
   we can run the FastAPI app in the docker now.
+
 
 
 
