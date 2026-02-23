@@ -87,17 +87,17 @@ DOCTOR – View only their assigned patients
 Swagger UI Authorization in the Clinic API is implemented using OAuth2 with JWT bearer authentication. The application exposes a token endpoint(/auth/login) that follows the OAuth2 Password Grant flow. When a user clicks the Authorize button in Swagger UI, they are prompted to enter their credentials (username and password). Swagger UI then sends these credentials to the token endpoint to request an access token. Upon successful authentication, the server issues a JWT access token containing the user’s identity and role information. Swagger UI securely stores this token in the browser session and automatically attaches it to subsequent API requests in the HTTP header.
 
 •	API flow
-1. registration of admin and doctors - /auth/register
-2. logging in of Admin or Doctor  - /auth/login
+1. registration of admin - /auth/register
+2. logging in of authorized User- /auth/login. Admin can login once registerd. After Doctor is created by the Admin, the Doctor can login
 3. Swagger UI Authorization using admin or doctor credentials 
 4. Once swagger UI is authorized to execute APIs, we can do CRUD operations in the Swagger UI
-5. Add doctors – POST /doctors
+5. Add doctors – POST /doctors 
 6. View doctors – GET /doctors
 7. View doctor using their id – GET /doctors/{doctor_id}
 8. Update any doctor details – PUT /doctors/{doctor_id}
 9. delete doctor details – DELETE /doctors/{doctor_id}
 10. Add patients – POST /patients
-11. View patients -  GET /patients
+11. View patients -  GET /patients - Doctor can view their Patients after logging in.
 12. Assign patients to doctors, one doctor can have many patients and each patient can consult many doctors. 
 13. View the assigned doctors – patients data – POST /{doctor_id}/patients/{patient_id}
 14. rate limiter – GET /health – used to verify whether the application is running properly – here 30/minute limit is set 
@@ -234,5 +234,6 @@ v)  Running everything from Docker desktop
        docker compose up –build
        
   we can run the FastAPI app in the docker now.
+
 
 
